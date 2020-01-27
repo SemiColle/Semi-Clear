@@ -19,38 +19,49 @@ class MessageEvent(Event):
         print(self.message)
 
 
-class DrawableEvent(Event):
-    def __init__(self, gameWindow, time, drawable, add=True):
+class RemoveDrawableEvent(Event):
+    def __init__(self, gameWindow, time, drawable):
         super().__init__(gameWindow, time)
         self.drawable = drawable
-        self.add = add
 
     def trigger(self):
-        if self.add:
-            self.gameWindow.sprites.append(self.drawable)
-        else:
-            self.drawable.active = False
+        self.drawable.active = False
+
+
+class DrawableEvent(Event):
+    def __init__(self, gameWindow, time, drawable):
+        super().__init__(gameWindow, time)
+        self.drawable = drawable
+
+    def trigger(self):
+        self.gameWindow.sprites.append(self.drawable)
 
 
 class EventQueue:
     def __init__(self):
         self.queue = []
         self.time = 0
-        self.nextEvent = 0
 
     def update(self, dt):
         self.time += dt
-        if self.nextEvent < len(self.queue):
-            if self.time >= self.queue[self.nextEvent].time:
-                self.queue[self.nextEvent].trigger()
-                self.nextEvent += 1
+        while len(self.queue) > 0 and self.time >= self.queue[0].time:
+            self.queue.pop(0).trigger()
 
-    def addEvent(self, event, relative=False, sortEvents=False):
+    def addDrawableEvent(self, gameWindow, time, drawable, duration, relative=False):
+        draw = DrawableEvent(gameWindow, time, drawable)
+        self.addEvent(draw, relative)
+        remove = RemoveDrawableEvent(gameWindow, time+duration, drawable)
+        self.addEvent(remove, relative)
+
+    def addEvent(self, event, relative=False):
         if relative:
+            assert(event.time >= 0)
             event.time += self.time
-        if event.time >= self.time: # only add future events
-            self.queue.append(event)
-        if sortEvents:
+        elif len(self.queue) > 0:
+            # if absolute, make sure queue stays sorted
+            assert(event.time >= self.queue[-1].time)
+        self.queue.append(event)
+        if relative:
             self.sortEvents()
 
     def sortEvents(self):

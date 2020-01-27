@@ -39,11 +39,9 @@ class GameWindow(arcade.Window):
             self.boss.goto((0.5, 0.5), 90, 2)
         if key == arcade.key.KEY_3:
             circle = Circle((0.5, 0), 50, arcade.color.RASPBERRY_PINK)
-            self.eventQueue.addEvent(DrawableEvent(self, 3, circle, True), relative=True, sortEvents=True)
-            self.eventQueue.addEvent(DrawableEvent(self, 4, circle, False), relative=True, sortEvents=True)
+            self.eventQueue.addDrawableEvent(self, 3, circle, 1, relative=True)
             castBar = CastBar((0, 0.2), 100, 3)
-            self.eventQueue.addEvent(DrawableEvent(self, 0, castBar, True), relative=True, sortEvents=True)
-            self.eventQueue.addEvent(DrawableEvent(self, 3, castBar, False), relative=True, sortEvents=True)
+            self.eventQueue.addDrawableEvent(self, 0, castBar, 3, relative=True)
 
     def on_key_release(self, key, keyModifiers):
         self.party.player.on_key_release(key, keyModifiers)

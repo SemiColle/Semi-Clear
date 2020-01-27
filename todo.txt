@@ -1,0 +1,25 @@
+testboss class
+
+arena solid borders
+pushback mechanic
+falling off
+
+direction indicator sprite
+player direction
+center titania sprite
+
+non-centered arena
+castbar text
+status text: mechanic hits
+collision detection
+
+drawables:
+sprite that follows drawable (debuff markers on players)
+donut (fixed/follow)
+circle (+follow)
+thick line from/to (each end optional follow)
+thick line from/angle
+cone from/to/angle/width
+
+fight sequence classes
+sequence calling next
