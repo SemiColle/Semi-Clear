@@ -1,5 +1,3 @@
-testboss class
-
 arena solid borders
 pushback mechanic
 falling off

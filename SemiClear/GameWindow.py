@@ -1,11 +1,9 @@
 import arcade
 
 from .Party import Party
-from .NPC import NPC
-from .Arena import Arena
+from .Duties.TestBoss import TestBoss
 from .Events import EventQueue, DrawableEvent
 from .Drawable import Circle, CastBar
-from . import AssetPath
 from . import helper
 
 
@@ -14,11 +12,11 @@ class GameWindow(arcade.Window):
         super().__init__(helper.WINDOW_WIDTH, helper.WINDOW_HEIGHT, title)
 
         arcade.set_background_color(arcade.color.BLACK)
-        self.boss = NPC(AssetPath.TITANIA, (0, 0), 0.6)
         self.party = Party('ranged')
-        self.arena = Arena()
-        self.sprites = [self.arena, self.boss, self.party]
+        self.sprites = [self.party]
         self.eventQueue = EventQueue()
+        self.duty = TestBoss(self)
+        self.duty.addMechanics()
 
     def on_update(self, dt):
         for s in self.sprites:
