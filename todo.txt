@@ -1,10 +1,5 @@
-arena solid borders
 pushback mechanic
 falling off
-
-direction indicator sprite
-player direction
-center titania sprite
 
 non-centered arena
 castbar text

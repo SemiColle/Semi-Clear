@@ -9,7 +9,7 @@ class TestBoss():
     def __init__(self, gameWindow):
         self.gameWindow = gameWindow
         self.arena = Arena()
-        self.boss = NPC(AssetPath.TITANIA, (0, 0), 0.6)
+        self.boss = NPC(AssetPath.TITANIA, (0, 0), 200, 150)
         gameWindow.sprites.append(self.boss)
         gameWindow.sprites.insert(0, self.arena)
 

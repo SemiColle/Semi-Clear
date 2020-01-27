@@ -11,11 +11,11 @@ class Party(Drawable):
         super().__init__()
         self.roles = {'tank': 2, 'healer': 2, 'ranged': 2, 'melee': 2}
         self.roles[playerRole] -= 1
-        self.player = Player(self.getAsset(playerRole), (0, 0), 1.0)
+        self.player = Player(self.getAsset(playerRole), (0, 0), 32, 48)
         self.members = []
         for role, num in self.roles.items():
             for _ in range(num):
-                npc = NPC(self.getAsset(role), (0, 0), 1.0)
+                npc = NPC(self.getAsset(role), (0, 0), 32, 48)
                 self.members.append(npc)
         self.members.append(self.player)
         self.setPosition(Vector(0, -0.8), 0.2)
