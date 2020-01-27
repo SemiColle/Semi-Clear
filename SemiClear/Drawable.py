@@ -26,12 +26,13 @@ class Circle(Drawable):
 
 
 class CastBar(Drawable):
-    def __init__(self, center, width, duration):
+    def __init__(self, duration, text='', center=(1.3, 0.5), width=150):
         super().__init__()
         self.center = Vector(center)
         self.width = width
         self.duration = duration
         self.filled = 0
+        self.text = text
 
     def update(self, dt):
         self.filled += dt/self.duration
@@ -39,7 +40,7 @@ class CastBar(Drawable):
             self.filled = 1
 
     def draw(self):
-        height = self.width/10
+        height = 10
         pixPos = coordsToPix(self.center)
         arcade.draw_rectangle_filled(pixPos.x, pixPos.y,
             self.width, height, arcade.color.BISTRE)
@@ -47,3 +48,6 @@ class CastBar(Drawable):
             self.width*self.filled, height, arcade.color.WHITE)
         arcade.draw_rectangle_outline(pixPos.x, pixPos.y,
             self.width, height, arcade.color.AMBER, 2)
+        if len(self.text) > 0:
+            arcade.draw_text(self.text, pixPos.x, pixPos.y-30,
+                arcade.color.WHITE, 16, align='center', font_name='calibri', anchor_x='center')

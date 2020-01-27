@@ -14,14 +14,14 @@ class TestBoss():
         gameWindow.sprites.insert(0, self.arena)
 
     def addMechanics(self):
-        self.addCastedCircle((0, 0.3), 50, 2, 2)
+        self.addCastedCircle((0, 0.3), 50, 1, 2)
         self.addCastedCircle((-0.5, -0.3), 50, 5.2, 2)
         self.addCastedCircle((0, 0), 200, 10, 4)
 
     def addCastedCircle(self, pos, radius, startTime, castTime):
         eq = self.gameWindow.eventQueue
         gw = self.gameWindow
-        castBar = CastBar((1.2, 0.5), 100, castTime)
+        castBar = CastBar(castTime, 'Butt Spank')
         eq.addDrawableEvent(gw, startTime, castBar, castTime)
         circle = Circle(pos, radius, arcade.color.RASPBERRY_PINK)
         eq.addDrawableEvent(gw, startTime+castTime, circle, 1)

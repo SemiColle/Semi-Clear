@@ -38,7 +38,7 @@ class GameWindow(arcade.Window):
         if key == arcade.key.KEY_3:
             circle = Circle((0.5, 0), 50, arcade.color.RASPBERRY_PINK)
             self.eventQueue.addDrawableEvent(self, 3, circle, 1, relative=True)
-            castBar = CastBar((0, 0.2), 100, 3)
+            castBar = CastBar(3, '', (0, 0.2), 100)
             self.eventQueue.addDrawableEvent(self, 0, castBar, 3, relative=True)
 
     def on_key_release(self, key, keyModifiers):

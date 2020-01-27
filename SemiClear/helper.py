@@ -2,14 +2,16 @@ import math
 
 WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 900
+ARENA_CENTER_X = 450
+ARENA_CENTER_Y = 450
 ARENA_WIDTH = 700
 ARENA_HEIGHT = 700
 
 # arena coordinates go from -1 to +1 in each dimension.
 # 0 is the center of both coordinate systems
 def coordsToPix(coords):
-    return Vector(coords.x * ARENA_WIDTH/2 + WINDOW_WIDTH/2,
-        coords.y * ARENA_HEIGHT/2 + WINDOW_HEIGHT/2)
+    return Vector(coords.x * ARENA_WIDTH/2 + ARENA_CENTER_X,
+        coords.y * ARENA_HEIGHT/2 + ARENA_CENTER_Y)
 
 class Vector:
     def __init__(self, x, y=None):
