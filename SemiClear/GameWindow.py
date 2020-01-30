@@ -1,4 +1,5 @@
 import arcade
+from operator import attrgetter
 
 from .Party import Party
 from .Duties.TestBoss import TestBoss
@@ -14,6 +15,7 @@ class GameWindow(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
         self.party = Party('ranged')
         self.sprites = [self.party]
+        self.mechanicHits = 0
         self.eventQueue = EventQueue()
         self.duty = TestBoss(self)
         self.duty.addMechanics()
@@ -23,14 +25,22 @@ class GameWindow(arcade.Window):
             s.update(dt)
         self.eventQueue.update(dt)
         self.sprites = [x for x in self.sprites if x.active]
+        if arcade.check_for_collision(self.party.player.sprite, self.duty.boss.sprite):
+            self.mechanicHits = 1
+        else:
+            self.mechanicHits = 0
 
     def on_draw(self):
         arcade.start_render()
+        self.sprites.sort(key=attrgetter('layer'))
         for s in self.sprites:
             s.draw()
+        statusPos = helper.coordsToPix(helper.Vector(1.3, 0.1))
+        arcade.draw_text(f'mechanic hits: {self.mechanicHits}', statusPos.x, statusPos.y, arcade.color.WHITE, helper.FONT_SIZE, anchor_x='center')
 
     def on_key_press(self, key, keyModifiers):
         self.party.player.on_key_press(key, keyModifiers)
+        self.duty.on_key_press(key, keyModifiers)
         if key == arcade.key.KEY_1:
             self.boss.goto((-0.5, 0.5), 270, 2)
         if key == arcade.key.KEY_2:

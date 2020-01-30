@@ -1,10 +1,6 @@
-status text: mechanic hits
 collision detection
 
 drawables:
-sprite that follows drawable (debuff markers on players)
-donut (fixed/follow)
-circle (+follow)
 thick line from/to (each end optional follow)
 thick line from/angle
 cone from/to/angle/width

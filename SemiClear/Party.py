@@ -7,8 +7,8 @@ from .helper import Vector
 
 
 class Party(Drawable):
-    def __init__(self, playerRole):
-        super().__init__()
+    def __init__(self, playerRole, layer=1.9):
+        super().__init__(layer, Vector(0, 0))
         self.roles = {'tank': 2, 'healer': 2, 'ranged': 2, 'melee': 2}
         self.roles[playerRole] -= 1
         self.player = Player(self.getAsset(playerRole), (0, 0), 32, 48)
@@ -35,4 +35,4 @@ class Party(Drawable):
         for m in self.members:
             rx = (random.random() * 2 - 1) * radius
             ry = (random.random() * 2 - 1) * radius
-            m.pos = center + Vector(rx, ry)
+            m.center = center + Vector(rx, ry)

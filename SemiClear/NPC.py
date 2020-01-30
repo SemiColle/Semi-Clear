@@ -8,14 +8,13 @@ class NPC(Drawable):
     MODE_GOTO = 'goto'
     MODE_PLAYER = 'play'
 
-    def __init__(self, icon, pos, size, hitsize):
-        super().__init__()
+    def __init__(self, icon, center, size, hitsize, layer=2):
+        super().__init__(layer, center)
         self.sprite = arcade.Sprite(icon)
         self.sprite.width, self.sprite.height = size, size
         self.hitbox = arcade.Sprite(AssetPath.HITBOX)
         self.hitbox.width, self.hitbox.height = hitsize, hitsize
         self.movMode = NPC.MODE_STOP
-        self.pos = Vector(pos)
         self.angle = 0
         self.targetPos = Vector(0, 0)
         self.targetAngle = 0
@@ -26,7 +25,7 @@ class NPC(Drawable):
         self.sprite.draw()
 
     def update(self, dt):
-        pixPos = coordsToPix(self.pos)
+        pixPos = coordsToPix(self.center)
         if self.angle > 360:
             self.angle -= 360
         if self.angle < 0:
@@ -46,11 +45,11 @@ class NPC(Drawable):
         self.movMode = NPC.MODE_GOTO
 
     def moveSpriteGoto(self, dt):
-        vector = self.targetPos - self.pos
+        vector = self.targetPos - self.center
         length = vector.length()
         if length < 0.01:
             self.movMode = NPC.MODE_STOP
             return
         if length >= self.speed*dt:
             vector = vector.normalize(self.speed*dt)
-        self.pos = self.pos + vector
+        self.center = self.center + vector

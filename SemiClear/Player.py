@@ -3,8 +3,8 @@ from .NPC import NPC
 
 
 class Player(NPC):
-    def __init__(self, icon, pos, size, hitsize):
-        super().__init__(icon, pos, size, hitsize)
+    def __init__(self, icon, center, size, hitsize):
+        super().__init__(icon, center, size, hitsize)
         self.keyMap = {
             arcade.key.W: 'up', arcade.key.S: 'down',
             arcade.key.A: 'left', arcade.key.D: 'right'
@@ -35,5 +35,5 @@ class Player(NPC):
         dy = dt * self.speed * (self.keyPressed['up'] - self.keyPressed['down'])
         if not dx == 0 or not dy == 0:
             self.angle = math.degrees(math.atan2(-dx, dy))
-        self.pos.x += dx
-        self.pos.y += dy
+        self.center.x += dx
+        self.center.y += dy

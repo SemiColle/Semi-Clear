@@ -6,6 +6,7 @@ ARENA_CENTER_X = 450
 ARENA_CENTER_Y = 450
 ARENA_WIDTH = 700
 ARENA_HEIGHT = 700
+FONT_SIZE = 16
 
 # arena coordinates go from -1 to +1 in each dimension.
 # 0 is the center of both coordinate systems
