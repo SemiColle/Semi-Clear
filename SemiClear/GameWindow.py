@@ -21,9 +21,9 @@ class GameWindow(arcade.Window):
         self.duty.addMechanics()
 
     def on_update(self, dt):
+        self.eventQueue.update(dt)
         for s in self.sprites:
             s.update(dt)
-        self.eventQueue.update(dt)
         self.sprites = [x for x in self.sprites if x.active]
         if arcade.check_for_collision(self.party.player.sprite, self.duty.boss.sprite):
             self.mechanicHits = 1

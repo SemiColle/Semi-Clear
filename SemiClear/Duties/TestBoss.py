@@ -44,8 +44,7 @@ class TestBoss():
         gw = self.gameWindow
         castBar = CastBar(castTime, 'Tasty Donut')
         donutMarker = Donut(gw.party.player, 50, 150, arcade.color.TIGERS_EYE)
-        # TODO: donut flashes in wrong position and then follows moving player
-        donut = Donut(gw.party.player, 55, 150, arcade.color.WHITE)
+        donut = Donut(gw.party.player, 55, 150, arcade.color.WHITE, snapshot=True)
         eq.addDrawableEvent(gw, startTime, castBar, castTime)
         eq.addDrawableEvent(gw, startTime, donutMarker, castTime)
         eq.addDrawableEvent(gw, startTime+castTime, donut, 1)
@@ -54,10 +53,8 @@ class TestBoss():
         eq = self.gameWindow.eventQueue
         gw = self.gameWindow
         castBar = CastBar(castTime, 'Pizza Slice')
-        # TODO: fix crash
-        # tether = ThickLine(self.boss, gw.party.player, 10, arcade.color.STEEL_BLUE)
-        # TODO: use position of player WHEN CONE TRIGGERS
-        cone = Cone((0, 0), gw.party.player.center, 45, arcade.color.BITTERSWEET_SHIMMER, 5)
+        tether = ThickLine(self.boss, gw.party.player, 10, arcade.color.STEEL_BLUE)
+        cone = Cone(self.boss, gw.party.player, 45, arcade.color.BITTERSWEET_SHIMMER, 5, snapshot=True)
         eq.addDrawableEvent(gw, 0, castBar, castTime)
-        # eq.addDrawableEvent(gw, 0, tether, castTime)
+        eq.addDrawableEvent(gw, 0, tether, castTime)
         eq.addDrawableEvent(gw, castTime, cone, 2)
