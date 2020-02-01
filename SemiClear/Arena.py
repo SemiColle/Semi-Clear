@@ -1,13 +1,15 @@
 import arcade
-from .Drawable import Drawable
-from . import helper
+from .Drawable import ThickLine, SpriteDrawable
+from . import helper, AssetPath
 
 
-class Arena(Drawable):
-    def __init__(self):
-        super().__init__(0, helper.Vector(0, 0))
+class TestArena():
+    def __init__(self, spriteList):
+        self.drawable = ThickLine((-1, 0), (1, 0), 2, arcade.color.CAMEL, 0)
+        spriteList.append(self.drawable)
 
-    def draw(self):
-        pixPos = helper.coordsToPix(self.center)
-        arcade.draw_rectangle_filled(pixPos.x, pixPos.y,
-            helper.ARENA_WIDTH, helper.ARENA_HEIGHT, arcade.color.CAMEL)
+
+class Eden3SArena():
+    def __init__(self, spriteList):
+        self.drawable = SpriteDrawable(AssetPath.ARENA_EDEN3S, (0, 0), 0, 2, 2)
+        spriteList.append(self.drawable)

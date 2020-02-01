@@ -1,6 +1,3 @@
-drawables:
-stack marker: line and point
-
 pushback mechanic
 
 fight sequence classes

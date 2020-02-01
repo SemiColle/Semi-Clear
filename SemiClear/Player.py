@@ -3,8 +3,8 @@ from .NPC import NPC
 
 
 class Player(NPC):
-    def __init__(self, icon, center, size, hitsize):
-        super().__init__(icon, center, size, hitsize)
+    def __init__(self, icon, center, size, hitsize, layer):
+        super().__init__(icon, center, size, hitsize, layer)
         self.keyMap = {
             arcade.key.W: 'up', arcade.key.S: 'down',
             arcade.key.A: 'left', arcade.key.D: 'right'

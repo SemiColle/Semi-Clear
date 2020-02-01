@@ -1,33 +1,33 @@
 import arcade
-from ..Arena import Arena
+from ..Arena import TestArena
 from ..NPC import NPC
 from .. import AssetPath
-from ..Drawable import CastBar, Circle, Debuff, Donut, ThickLine, AngledLine, Cone
-from ..helper import Vector, rotateVector
+from ..Drawable import CastBar, Circle, Donut, ThickLine, AngledLine, Cone, SpriteDrawable
+from ..helper import Vector, rotateVector, PLAYER_SIZE
 
 
 class TestBoss():
     def __init__(self, gameWindow):
         self.gameWindow = gameWindow
-        self.arena = Arena()
-        self.boss = NPC(AssetPath.TITANIA, (0, 0), 0.5, 0.4, layer=3)
+        self.arena = TestArena(gameWindow.sprites)
+        self.boss = NPC(AssetPath.BOSS_TITANIA, (0, 0), 0.5, 0.4, layer=3)
         gameWindow.sprites.append(self.boss)
-        gameWindow.sprites.append(self.arena)
 
-        gameWindow.sprites.append(Debuff(AssetPath.SWIRLING_WATERS, gameWindow.party.player))
-        gameWindow.sprites.append(Debuff(AssetPath.SPLASHING_WATERS, Vector(0.5, 1.1)))
+        gameWindow.sprites.append(SpriteDrawable(AssetPath.SWIRLING_WATERS, gameWindow.party.player, 2.1, PLAYER_SIZE*0.8, PLAYER_SIZE*0.8, Vector(-0.04, 0.04)))
+        gameWindow.sprites.append(SpriteDrawable(AssetPath.SPLASHING_WATERS, Vector(0.5, 1.1), 2, PLAYER_SIZE*0.8, PLAYER_SIZE*0.8))
         gameWindow.sprites.append(AngledLine((1, 1), -45, 0.2, 0.05, arcade.color.BANANA_MANIA))
 
     def on_key_press(self, key, keyModifiers):
+        if key == arcade.key.KEY_1:
+            self.boss.goto((-0.5, 0.5), 270, 2)
+        if key == arcade.key.KEY_2:
+            self.boss.goto((0.5, 0.5), 90, 2)
         if key == arcade.key.KEY_5:
             self.addCastedCircle((0, 0.3), 0.5, 0, 4)
         if key == arcade.key.KEY_6:
             self.addCastedDonut(0, 3)
         if key == arcade.key.KEY_7:
             self.addCastedCone(3)
-
-    def addMechanics(self):
-        pass
 
     def addCastedCircle(self, pos, radius, startTime, castTime):
         eq = self.gameWindow.eventQueue

@@ -148,14 +148,15 @@ class CastBar(Drawable):
                 arcade.color.WHITE, helper.FONT_SIZE, align='center', font_name='calibri', anchor_x='center')
 
 
-class Debuff(Drawable):
-    def __init__(self, icon, center, relPos=Vector(-0.04, 0.04), layer=2.1):
+class SpriteDrawable(Drawable):
+    def __init__(self, icon, center, layer, width, height, offset=Vector(0, 0)):
         super().__init__(layer, center)
-        self.sprite = arcade.Sprite(icon, scale=0.8)
-        self.relPos = relPos
+        self.sprite = arcade.Sprite(icon)
+        self.sprite.width, self.sprite.height = sizeToPix(width), sizeToPix(height)
+        self.offset = offset
 
     def draw(self):
-        pixPos = coordsToPix(self.center + self.relPos)
+        pixPos = coordsToPix(self.center + self.offset)
         self.sprite.center_x = pixPos.x
         self.sprite.center_y = pixPos.y
         self.sprite.draw()
