@@ -47,13 +47,13 @@ class EventQueue:
         while len(self.queue) > 0 and self.time >= self.queue[0].time:
             self.queue.pop(0).trigger()
 
-    def addDrawableEvent(self, gameWindow, time, drawable, duration, relative=False):
+    def addDrawableEvent(self, gameWindow, time, drawable, duration, relative=True):
         draw = DrawableEvent(gameWindow, time, drawable)
         self.addEvent(draw, relative)
         remove = RemoveDrawableEvent(gameWindow, time+duration, drawable)
         self.addEvent(remove, relative)
 
-    def addEvent(self, event, relative=False):
+    def addEvent(self, event, relative=True):
         if relative:
             assert(event.time >= 0)
             event.time += self.time

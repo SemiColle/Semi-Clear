@@ -1,8 +1,6 @@
 collision detection
 
 drawables:
-thick line from/to (each end optional follow)
-thick line from/angle
 cone from/to/angle/width
 
 fight sequence classes

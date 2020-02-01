@@ -14,13 +14,17 @@ def coordsToPix(coords):
     return Vector(coords.x * ARENA_WIDTH/2 + ARENA_CENTER_X,
         coords.y * ARENA_HEIGHT/2 + ARENA_CENTER_Y)
 
+def rotateVector(vec, angle):
+    a = math.radians(angle)
+    return Vector(vec.x*math.cos(a)-vec.y*math.sin(a), vec.x*math.sin(a)+vec.y*math.cos(a))
+
 class Vector:
     def __init__(self, x, y=None):
         if isinstance(x, list) or isinstance(x, tuple):
             assert(len(x) == 2)
             self.vals = list(x)
         elif isinstance(x, Vector):
-            self.vals = x.vals
+            self.vals = [x.x, x.y]
         else:
             assert(y is not None)
             self.vals = [x, y]
@@ -43,6 +47,9 @@ class Vector:
 
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y)
+
+    def __str__(self):
+        return f'({self.x:.2f}, {self.y:.2f})'
 
     def length(self):
         return math.sqrt(self.x**2 + self.y**2)

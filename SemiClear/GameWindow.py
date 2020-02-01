@@ -42,9 +42,9 @@ class GameWindow(arcade.Window):
         self.party.player.on_key_press(key, keyModifiers)
         self.duty.on_key_press(key, keyModifiers)
         if key == arcade.key.KEY_1:
-            self.boss.goto((-0.5, 0.5), 270, 2)
+            self.duty.boss.goto((-0.5, 0.5), 270, 2)
         if key == arcade.key.KEY_2:
-            self.boss.goto((0.5, 0.5), 90, 2)
+            self.duty.boss.goto((0.5, 0.5), 90, 2)
         if key == arcade.key.KEY_3:
             circle = Circle((0.5, 0), 50, arcade.color.RASPBERRY_PINK)
             self.eventQueue.addDrawableEvent(self, 3, circle, 1, relative=True)
