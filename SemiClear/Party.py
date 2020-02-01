@@ -3,7 +3,7 @@ from .Drawable import Drawable
 from .Player import Player
 from .NPC import NPC
 from . import AssetPath
-from .helper import Vector
+from .helper import Vector, PLAYER_SIZE
 
 
 class Party(Drawable):
@@ -11,11 +11,11 @@ class Party(Drawable):
         super().__init__(layer, Vector(0, 0))
         self.roles = {'tank': 2, 'healer': 2, 'ranged': 2, 'melee': 2}
         self.roles[playerRole] -= 1
-        self.player = Player(self.getAsset(playerRole), (0, 0), 32, 48)
+        self.player = Player(self.getAsset(playerRole), (0, 0), PLAYER_SIZE, PLAYER_SIZE*1.5)
         self.members = []
         for role, num in self.roles.items():
             for _ in range(num):
-                npc = NPC(self.getAsset(role), (0, 0), 32, 48)
+                npc = NPC(self.getAsset(role), (0, 0), PLAYER_SIZE, PLAYER_SIZE*1.5)
                 self.members.append(npc)
         self.members.append(self.player)
         self.setPosition(Vector(0, -0.8), 0.2)

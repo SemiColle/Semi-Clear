@@ -7,6 +7,7 @@ ARENA_CENTER_Y = 450
 ARENA_WIDTH = 700
 ARENA_HEIGHT = 700
 FONT_SIZE = 16
+PLAYER_SIZE = 0.1
 
 # arena coordinates go from -1 to +1 in each dimension.
 # 0 is the center of both coordinate systems
@@ -17,6 +18,9 @@ def coordsToPix(coords):
 def rotateVector(vec, angle):
     a = math.radians(angle)
     return Vector(vec.x*math.cos(a)-vec.y*math.sin(a), vec.x*math.sin(a)+vec.y*math.cos(a))
+
+def sizeToPix(size):
+    return size * ARENA_WIDTH/2
 
 class Vector:
     def __init__(self, x, y=None):

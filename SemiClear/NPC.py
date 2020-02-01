@@ -1,5 +1,5 @@
 import arcade
-from .helper import coordsToPix, Vector
+from .helper import coordsToPix, Vector, sizeToPix
 from .Drawable import Drawable
 from . import AssetPath
 
@@ -10,10 +10,11 @@ class NPC(Drawable):
 
     def __init__(self, icon, center, size, hitsize, layer=2):
         super().__init__(layer, center)
+        pixSize, pixHitsize = sizeToPix(size), sizeToPix(hitsize)
         self.sprite = arcade.Sprite(icon)
-        self.sprite.width, self.sprite.height = size, size
+        self.sprite.width, self.sprite.height = pixSize, pixSize
         self.hitbox = arcade.Sprite(AssetPath.HITBOX)
-        self.hitbox.width, self.hitbox.height = hitsize, hitsize
+        self.hitbox.width, self.hitbox.height = pixHitsize, pixHitsize
         self.movMode = NPC.MODE_STOP
         self.angle = 0
         self.targetPos = Vector(0, 0)

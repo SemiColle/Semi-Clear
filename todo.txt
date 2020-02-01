@@ -1,10 +1,10 @@
-collision detection
-
 drawables:
-cone from/to/angle/width
+stack marker: line and point
+
+pushback mechanic
 
 fight sequence classes
 sequence calling next
 
-pushback mechanic
 falling off
+collision detection

@@ -1,5 +1,5 @@
 import arcade, math
-from .helper import coordsToPix, Vector
+from .helper import coordsToPix, Vector, sizeToPix
 from . import helper
 
 
@@ -38,7 +38,8 @@ class Circle(Drawable):
 
     def draw(self):
         pixPos = coordsToPix(self.center)
-        arcade.draw_circle_filled(pixPos.x, pixPos.y, self.radius, self.color)
+        pixRad = sizeToPix(self.radius)
+        arcade.draw_circle_filled(pixPos.x, pixPos.y, pixRad, self.color)
 
 
 class Donut(Drawable):
@@ -49,7 +50,9 @@ class Donut(Drawable):
 
     def draw(self):
         pixPos = coordsToPix(self.center)
-        arcade.draw_circle_outline(pixPos.x, pixPos.y, self.radius, self.color, self.thickness)
+        pixRad = sizeToPix(self.radius)
+        pixThick = sizeToPix(self.thickness)
+        arcade.draw_circle_outline(pixPos.x, pixPos.y, pixRad, self.color, pixThick)
 
 
 class TargetedDrawable(Drawable):
@@ -76,9 +79,10 @@ class ThickLine(TargetedDrawable):
     def draw(self):
         startPos = coordsToPix(self.center)
         endPos = coordsToPix(self.end)
+        pixThick = sizeToPix(self.thickness)
         if startPos.x == endPos.x and startPos.x == endPos.y:
             startPos.y += 1
-        arcade.draw_line(startPos.x, startPos.y, endPos.x, endPos.y, self.color, self.thickness)
+        arcade.draw_line(startPos.x, startPos.y, endPos.x, endPos.y, self.color, pixThick)
 
 
 class AngledLine(ThickLine):
@@ -116,7 +120,7 @@ class Cone(TargetedDrawable):
 
 
 class CastBar(Drawable):
-    def __init__(self, duration, text='', center=(1.3, 0.5), width=150, layer=4):
+    def __init__(self, duration, text='', center=(1.3, 0.5), width=0.3, layer=4):
         super().__init__(layer, center)
         self.width = width
         self.duration = duration
@@ -132,12 +136,13 @@ class CastBar(Drawable):
     def draw(self):
         height = 10
         pixPos = coordsToPix(self.center)
+        pixWidth = sizeToPix(self.width)
         arcade.draw_rectangle_filled(pixPos.x, pixPos.y,
-            self.width, height, arcade.color.BISTRE)
-        arcade.draw_xywh_rectangle_filled(pixPos.x-self.width/2, pixPos.y-height/2,
-            self.width*self.filled, height, arcade.color.WHITE)
+            pixWidth, height, arcade.color.BISTRE)
+        arcade.draw_xywh_rectangle_filled(pixPos.x-pixWidth/2, pixPos.y-height/2,
+            pixWidth*self.filled, height, arcade.color.WHITE)
         arcade.draw_rectangle_outline(pixPos.x, pixPos.y,
-            self.width, height, arcade.color.AMBER, 2)
+            pixWidth, height, arcade.color.AMBER, 2)
         if len(self.text) > 0:
             arcade.draw_text(self.text, pixPos.x, pixPos.y-30,
                 arcade.color.WHITE, helper.FONT_SIZE, align='center', font_name='calibri', anchor_x='center')
