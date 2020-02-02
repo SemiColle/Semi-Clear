@@ -69,16 +69,21 @@ class TargetedDrawable(Drawable):
 
 
 class ThickLine(TargetedDrawable):
-    def __init__(self, center, end, thickness, color, layer=1, snapshot=False):
+    def __init__(self, center, end, thickness, color, length=None, layer=1, snapshot=False):
         super().__init__(layer, center, end, color, snapshot)
         self.thickness = thickness
+        self.length = length
 
     def update(self, dt):
         super().update(dt)
 
     def draw(self):
         startPos = coordsToPix(self.center)
-        endPos = coordsToPix(self.end)
+        if self.length is None:
+            endPos = coordsToPix(self.end)
+        else:
+            direction = (self.end-self.center).normalize(self.length)
+            endPos = coordsToPix(self.center + direction)
         pixThick = sizeToPix(self.thickness)
         if startPos.x == endPos.x and startPos.x == endPos.y:
             startPos.y += 1
@@ -160,3 +165,15 @@ class SpriteDrawable(Drawable):
         self.sprite.center_x = pixPos.x
         self.sprite.center_y = pixPos.y
         self.sprite.draw()
+
+
+class TextDrawable(Drawable):
+    def __init__(self, text, center, color, size, layer):
+        super().__init__(layer, center, color)
+        self.text = text
+        self.size = size
+
+    def draw(self):
+        pixPos = coordsToPix(self.center)
+        arcade.draw_text(self.text, pixPos.x, pixPos.y,
+            self.color, self.size, align='center', font_name='calibri', anchor_x='center')

@@ -37,3 +37,6 @@ class Player(NPC):
             self.angle = math.degrees(math.atan2(-dx, dy))
         self.center.x += dx
         self.center.y += dy
+
+    def isPlayer(self):
+        return True

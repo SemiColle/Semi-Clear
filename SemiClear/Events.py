@@ -37,6 +37,28 @@ class DrawableEvent(Event):
         self.gameWindow.sprites.append(self.drawable)
 
 
+class CallbackEvent(Event):
+    def __init__(self, gameWindow, time, callback):
+        super().__init__(gameWindow, time)
+        self.callback = callback
+
+    def trigger(self):
+        self.callback()
+
+
+class GotoEvent(Event):
+    def __init__(self, gameWindow, time, who, targetPos, targetAngle, scatter, speed):
+        super().__init__(gameWindow, time)
+        self.who = who
+        self.targetPos = targetPos
+        self.targetAngle = targetAngle
+        self.scatter = scatter
+        self.speed = speed
+
+    def trigger(self):
+        self.who.goto(self.targetPos, self.targetAngle, self.scatter, self.speed)
+
+
 class EventQueue:
     def __init__(self):
         self.queue = []

@@ -1,3 +1,6 @@
+add ground markers to eden3s
+simplify basic things: cast bar, goto
+
 pushback mechanic
 
 fight sequence classes

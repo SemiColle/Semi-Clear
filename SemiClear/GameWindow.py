@@ -14,10 +14,10 @@ class GameWindow(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLACK)
         self.sprites = []
-        self.party = Party('ranged', self.sprites)
+        self.party = Party('tank', self.sprites)
         self.mechanicHits = 0
         self.eventQueue = EventQueue()
-        self.duty = TestBoss(self)
+        self.duty = Eden3S(self)
 
     def on_update(self, dt):
         self.eventQueue.update(dt)
@@ -35,7 +35,8 @@ class GameWindow(arcade.Window):
 
     def on_key_press(self, key, keyModifiers):
         self.party.player.on_key_press(key, keyModifiers)
-        self.duty.on_key_press(key, keyModifiers)
+        if hasattr(self.duty, 'on_key_press'):
+            self.duty.on_key_press(key, keyModifiers)
 
     def on_key_release(self, key, keyModifiers):
         self.party.player.on_key_release(key, keyModifiers)

@@ -1,4 +1,4 @@
-import math
+import math, random
 
 WINDOW_WIDTH = 1200
 WINDOW_HEIGHT = 900
@@ -8,6 +8,7 @@ ARENA_WIDTH = 700
 ARENA_HEIGHT = 700
 FONT_SIZE = 16
 PLAYER_SIZE = 0.1
+MOVEMENT_SPEED = 0.3
 
 # arena coordinates go from -1 to +1 in each dimension.
 # 0 is the center of both coordinate systems
@@ -21,6 +22,9 @@ def rotateVector(vec, angle):
 
 def sizeToPix(size):
     return size * ARENA_WIDTH/2
+
+def randomVector(radius):
+    return Vector((random.random() * 2 - 1) * radius, (random.random() * 2 - 1) * radius)
 
 class Vector:
     def __init__(self, x, y=None):

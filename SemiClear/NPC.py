@@ -1,5 +1,5 @@
 import arcade
-from .helper import coordsToPix, Vector, sizeToPix
+from .helper import coordsToPix, Vector, sizeToPix, randomVector, MOVEMENT_SPEED
 from .Drawable import SpriteDrawable, Drawable
 from . import AssetPath
 
@@ -20,7 +20,7 @@ class NPC(Drawable):
         self.angle = 0
         self.targetPos = Vector(0, 0)
         self.targetAngle = 0
-        self.speed = 0.5
+        self.speed = MOVEMENT_SPEED
 
     def update(self, dt):
         super().update(dt)
@@ -32,8 +32,12 @@ class NPC(Drawable):
         if self.movMode == NPC.MODE_GOTO:
             self.moveSpriteGoto(dt)
 
-    def goto(self, targetPos, targetAngle, speed):
+    def goto(self, targetPos, targetAngle, scatter, speed=MOVEMENT_SPEED):
+        if self.isPlayer():
+            return
         self.targetPos = Vector(targetPos)
+        if scatter > 0:
+            self.targetPos = self.targetPos + randomVector(scatter)
         self.targetAngle = targetAngle
         self.speed = speed
         self.movMode = NPC.MODE_GOTO
@@ -47,3 +51,6 @@ class NPC(Drawable):
         if length >= self.speed*dt:
             vector = vector.normalize(self.speed*dt)
         self.center = self.center + vector
+
+    def isPlayer(self):
+        return False
