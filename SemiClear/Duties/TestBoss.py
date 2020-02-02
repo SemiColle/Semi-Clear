@@ -10,7 +10,7 @@ class TestBoss():
     def __init__(self, gameWindow):
         self.gameWindow = gameWindow
         self.arena = TestArena(gameWindow.sprites)
-        self.boss = NPC(AssetPath.BOSS_TITANIA, (0, 0), 0.5, 0.4, layer=3)
+        self.boss = NPC(AssetPath.BOSS_TITANIA, (0, 0), 0.5, 0.4, 3, gameWindow.sprites)
         gameWindow.sprites.append(self.boss)
 
         gameWindow.sprites.append(SpriteDrawable(AssetPath.SWIRLING_WATERS, gameWindow.party.player, 2.1, PLAYER_SIZE*0.8, PLAYER_SIZE*0.8, Vector(-0.04, 0.04)))
