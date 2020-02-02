@@ -59,6 +59,16 @@ class GotoEvent(Event):
         self.who.goto(self.targetPos, self.targetAngle, self.scatter, self.speed)
 
 
+class KnockbackEvent(Event):
+    def __init__(self, gameWindow, time, angle, distance):
+        super().__init__(gameWindow, time)
+        self.angle = angle
+        self.distance = distance
+
+    def trigger(self):
+        self.gameWindow.party.knockback(self.angle, self.distance)
+
+
 class EventQueue:
     def __init__(self):
         self.queue = []

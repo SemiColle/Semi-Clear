@@ -85,7 +85,7 @@ class ThickLine(TargetedDrawable):
             direction = (self.end-self.center).normalize(self.length)
             endPos = coordsToPix(self.center + direction)
         pixThick = sizeToPix(self.thickness)
-        if startPos.x == endPos.x and startPos.x == endPos.y:
+        if (startPos-endPos).length() < 0.001:
             startPos.y += 1
         arcade.draw_line(startPos.x, startPos.y, endPos.x, endPos.y, self.color, pixThick)
 

@@ -32,8 +32,8 @@ class NPC(Drawable):
         if self.movMode == NPC.MODE_GOTO:
             self.moveSpriteGoto(dt)
 
-    def goto(self, targetPos, targetAngle, scatter, speed=MOVEMENT_SPEED):
-        if self.isPlayer():
+    def goto(self, targetPos, targetAngle, scatter, speed=MOVEMENT_SPEED, knockback=False):
+        if self.isPlayer() and not knockback:
             return
         self.targetPos = Vector(targetPos)
         if scatter > 0:
@@ -46,7 +46,11 @@ class NPC(Drawable):
         vector = self.targetPos - self.center
         length = vector.length()
         if length < 0.01:
-            self.movMode = NPC.MODE_STOP
+            if self.isPlayer():
+                self.movMode = NPC.MODE_PLAYER
+                self.speed = MOVEMENT_SPEED
+            else:
+                self.movMode = NPC.MODE_STOP
             return
         if length >= self.speed*dt:
             vector = vector.normalize(self.speed*dt)

@@ -14,12 +14,14 @@ class GameWindow(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLACK)
         self.sprites = []
-        self.party = Party('tank', self.sprites)
+        self.party = Party('healer', self.sprites)
         self.mechanicHits = 0
         self.eventQueue = EventQueue()
         self.duty = Eden3S(self)
+        self.gameSpeed = 1
 
     def on_update(self, dt):
+        dt = dt * self.gameSpeed
         self.eventQueue.update(dt)
         for s in self.sprites:
             s.update(dt)

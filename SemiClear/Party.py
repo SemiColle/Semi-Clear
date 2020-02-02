@@ -2,7 +2,7 @@ from .Drawable import Drawable
 from .Player import Player
 from .NPC import NPC
 from . import AssetPath
-from .helper import Vector, randomVector, PLAYER_SIZE, MOVEMENT_SPEED
+from .helper import Vector, randomVector, rotateVector, PLAYER_SIZE, MOVEMENT_SPEED
 
 
 class Party():
@@ -45,3 +45,9 @@ class Party():
         for m in self.members:
             p = Vector(targetPos)
             m.goto(p, targetAngle, scatter, speed)
+
+    def knockback(self, angle, distance, speed=1.0):
+        for m in self.members:
+            direction = rotateVector(Vector(0, distance), angle)
+            targetPos = m.center + direction
+            m.goto(targetPos, m.angle, 0, 1.0, True)
