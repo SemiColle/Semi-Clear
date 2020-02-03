@@ -26,8 +26,12 @@ class Party():
     def getAsset(self, role):
         return getattr(AssetPath, role.upper())
 
-    def get(self, role, index):
-        return getattr(self, role)[index]
+    def get(self, role=None, index=None):
+        if role is None: # get all
+            return self.get('tank') + self.get('healer') + self.get('ranged') + self.get('melee')
+        if index is None: # get all from one role
+            return getattr(self, role)
+        return getattr(self, role)[index] # get one member
 
     def update(self, dt):
         for m in self.members:
@@ -40,11 +44,6 @@ class Party():
     def setPosition(self, center, radius):
         for m in self.members:
             m.center = center + randomVector(radius)
-
-    def goto(self, targetPos, targetAngle, scatter, speed=MOVEMENT_SPEED):
-        for m in self.members:
-            p = Vector(targetPos)
-            m.goto(p, targetAngle, scatter, speed)
 
     def knockback(self, angle, distance, speed=1.0):
         for m in self.members:

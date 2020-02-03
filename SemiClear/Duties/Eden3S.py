@@ -24,14 +24,14 @@ class Eden3S(Duty):
         self.firstPhase(4)
 
     def firstPhase(self, start):
-        self.goto(start, 'all', (0, 0.1), 0)
+        self.goto(start, 'all', (0, 0.1), 0, 0.05)
         self.tidalRoar(start+9)
         self.ripCurrent(start+19)
         self.tidalWave(start+33)
-        self.temporaryCurrent(start+46)
+        self.temporaryCurrent(start+46, split=False)
         self.drenchingPulse(start+58)
-        self.temporaryCurrent(start+67)
-        self.goto(start+78, 'all', (0, 0.1), 0)
+        self.temporaryCurrent(start+67, split=True)
+        self.goto(start+78, 'all', (0, 0.1), 0, 0.05)
         self.callback(start+80, self.arena.restore)
 
     def tidalRoar(self, start):
@@ -56,11 +56,15 @@ class Eden3S(Duty):
         self.callback(start+11, self.arena.breakSides)
         self.knockback(start+14, opt[1], 0.9)
 
-    def temporaryCurrent(self, start):
-        opt = random.choice([[(1, 1), 'A'], [(-1, 1), 'B']])
+    def temporaryCurrent(self, start, split):
+        opt = random.choice([[(1, 1), 'A', 'C'], [(-1, 1), 'B', 'D']])
         self.goto(start, 'boss', opt[0], -180, 0, 2)
         self.castBar(start, 6, 'Temporary Current')
-        self.goto(start+3, 'all', opt[1], 0, 0.03)
+        if split:
+            self.goto(start+3, ['tanks', 'melees'], opt[1], 0, 0.03)
+            self.goto(start+3, ['rangeds', 'healers'], opt[2], 0, 0.03)
+        else:
+            self.goto(start+3, 'all', opt[1], 0, 0.03)
         self.thickLine(start+6, 2, opt[0], (0, 0), 1.5, 5, 'LIGHT_BLUE', 1)
         self.goto(start+8, 'boss', (0, 1), -180, 0, 2)
 
@@ -68,8 +72,7 @@ class Eden3S(Duty):
         self.goto(start-2, 'all', (0, 0.1), 0, 0.05)
         self.castBar(start, 3, 'Drenching Pulse')
         self.gotoSpots(start+4, 'Freak Wave')
-        for m in self.party.members:
-            c = self.circle(start+3, 2, m.drawable, 0.4, 'TIGERS_EYE', 1, True)
-            self.circle(start+6, 1, c, 0.4, 'LIGHT_BLUE', 1, True)
-            self.circle(start+5, 6, m.drawable, 0.25, 'TIGERS_EYE', 1.1)
-            self.circle(start+11, 1, m.drawable, 0.25, 'LIGHT_BLUE', 1.1, True)
+        circles = self.circle(start+3, 2, 'all', 0.4, 'TIGERS_EYE', 1, True)
+        self.circle(start+6, 1, circles, 0.4, 'LIGHT_BLUE', 1, True)
+        self.circle(start+5, 6, 'all', 0.25, 'TIGERS_EYE', 1.1)
+        self.circle(start+11, 1, 'all', 0.25, 'LIGHT_BLUE', 1.1, True)

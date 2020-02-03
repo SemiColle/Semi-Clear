@@ -27,14 +27,24 @@ class Duty():
         return getattr(arcade.color, color)
 
     def getTarget(self, target):
-        if isinstance(target, (Vector, tuple, list, Drawable)):
-            return target
-        if isinstance(target, str):
-            if target[-1] in ['0', '1']:
-                return self.party.get(target[:-1], int(target[-1]))
-            if target == 'boss':
-                return self.boss
-        assert(False, f'unknown target {target}')
+        if isinstance(target, (Vector, tuple, Drawable, str)):
+            target = [target]
+        result = []
+        if isinstance(target, list):
+            for t in target:
+                if isinstance(t, (Vector, tuple, Drawable)):
+                    result.append(t)
+                elif t == 'all':
+                    result += self.party.get()
+                elif t == 'boss':
+                    result.append(self.boss)
+                elif t[-1] == 's':
+                    result += self.party.get(t[:-1])
+                elif t[-1] in ['0', '1']:
+                    result.append(self.party.get(t[:-1], int(t[-1])))
+        if len(result) == 0:
+            print(f'unknown target {target}')
+        return result
 
     def countdown(self, value):
         for i in range(value+1):
@@ -54,14 +64,12 @@ class Duty():
     def callback(self, when, what):
         self.eq.addEvent(CallbackEvent(self.gw, when, what))
 
-    def goto(self, when, who, where, angle, scatter=0.1, speed=MOVEMENT_SPEED):
+    def goto(self, when, who, where, angle, scatter=0, speed=MOVEMENT_SPEED):
         if isinstance(where, str):
             where = self.markers[where]
-        if who == 'all':
-            self.eq.addEvent(GotoEvent(self.gw, when, self.party, where, angle, scatter, speed))
-            return
-        player = self.getTarget(who)
-        self.eq.addEvent(GotoEvent(self.gw, when, player, where, angle, 0.0, speed))
+        players = self.getTarget(who)
+        for p in players:
+            self.eq.addEvent(GotoEvent(self.gw, when, p, where, angle, scatter, speed))
 
     def gotoSpots(self, when, mechanic, speed=MOVEMENT_SPEED):
         spots = self.assignedSpots[mechanic]
@@ -77,13 +85,18 @@ class Duty():
         self.eq.addDrawableEvent(self.gw, when, cast, howLong)
 
     def circle(self, when, howLong, where, howBig, color, layer=1, snapshot=False):
-        target = self.getTarget(where)
-        effect = Circle(target, howBig, self.getColor(color), layer, snapshot)
-        self.eq.addDrawableEvent(self.gw, when, effect, howLong)
-        return effect
+        targets = self.getTarget(where)
+        effects = []
+        for t in targets:
+            effect = Circle(t, howBig, self.getColor(color), layer, snapshot)
+            self.eq.addDrawableEvent(self.gw, when, effect, howLong)
+            effects.append(effect)
+        return effects
 
     def thickLine(self, when, howLong, start, end, thickness, length, color, layer, snapshot=False):
         target1 = self.getTarget(start)
         target2 = self.getTarget(end)
-        effect = ThickLine(target1, target2, thickness, self.getColor(color), length, layer, snapshot)
-        self.eq.addDrawableEvent(self.gw, when, effect, howLong)
+        assert(len(target1) == 1, 'thick lines can only originate from a single target')
+        for t in target2:
+            effect = ThickLine(target1[0], t, thickness, self.getColor(color), length, layer, snapshot)
+            self.eq.addDrawableEvent(self.gw, when, effect, howLong)

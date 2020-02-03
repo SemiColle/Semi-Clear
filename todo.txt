@@ -1,5 +1,2 @@
-goto/gotoevent can have different inputs (one person, one role, all, list of players)
--probably remove goto from the party altogether (same for knockback?)
-
 falling off
 collision detection
